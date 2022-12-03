@@ -3,9 +3,10 @@ let machines = [];
 let currentSound;
 let drawI = 0;
 let machineSound;
+let devProximity = 100;
 
 function preload() {
-  getAudioContext().resume();
+  // getAudioContext().resume();
   soundFormats('mp3', 'wav');
   
   let chimePath = "static/sounds/nature/0.mp3";
@@ -18,7 +19,7 @@ function preload() {
 }
 
 function setup() {
-  getAudioContext().resume();
+  // getAudioContext().resume();
   let cnv = createCanvas(windowWidth, windowHeight);
   background(200, 25, 50);
   cnv.mousePressed(canvasPressed);
@@ -30,7 +31,8 @@ function touchStarted() {
 }
 
 function draw() {
-  let glitchPerc = getXPerc();
+  // let glitchPerc = getXPerc();
+  let glitchPerc = getProximityFromDevice();
   
   console.log("glitchPerc: ", glitchPerc)
   let division = floor(100/glitchPerc);
@@ -93,6 +95,16 @@ function getXPerc() {
 }
 
 function canvasPressed() {
+  getAudioContext().resume();
   currentSound.play();
   currentSound.setLoop(true);
+}
+
+function getProximityFromDevice() {
+  devProximity = localStorage.getItem("proximity"); 
+  if (devProximity > 100) {
+    return 0;
+  } else {
+    return 100 - devProximity;
+  }
 }
