@@ -54,22 +54,26 @@ function draw() {
 
 function soundJump(mySound) {
   machineSound.pause();
+  mySound.pause();
   mySound.play();
   let soundLen = mySound.duration();
   let start = random(0, soundLen);
   let duration = soundLen - start;
   mySound.jump(start, duration);
+  mySound.setVolume(0);
+  mySound.setVolume(1, .2, 0.01);
 }
 
-function soundJumpWithDuration(mySound, duration) {
+function soundJumpWithDuration(mySound, duration, volume) {
   mySound.play();
-  mySound.loop();
   let soundLen = mySound.duration();
   let start = random(0, soundLen);
   if (start+duration >= soundLen) {
     duration = soundLen - start;
   }
   mySound.jump(start, duration); 
+  mySound.setVolume(0);
+  mySound.setVolume(volume, .2, 0.01);
 }
 
 function playMachineSound(glitchPerc) { 
@@ -81,12 +85,12 @@ function playMachineSound(glitchPerc) {
   machineDuration = duration * (glitchPerc * 0.01);
   chimesDuration = duration - machineDuration;
   
-  soundJumpWithDuration(machineSound, machineDuration);
+  soundJumpWithDuration(machineSound, machineDuration, .7);
   
-  soundJumpWithDuration(currentSound, chimesDuration);
+  soundJumpWithDuration(currentSound, chimesDuration, 1);
   
   // setTimeout(() => {
-  //   soundJumpWithDuration(currentSound, chimesDuration);
+  //   soundJumpWithDuration(currentSound, chimesDuration, 1);
   // }, machineDuration*1000)
 }
 
